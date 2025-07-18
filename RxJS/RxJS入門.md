@@ -269,7 +269,7 @@ export class SearchComponent implements OnInit {
 *   **なぜ `switchMap`？**: `map` だと、`Observable<string>` が `Observable<Observable<any[]>>` になってしまいます（Observable の入れ子）。`switchMap` は**高階マッピング (Higher-Order Mapping)** オペレータの一つで、内側の Observable (`apiService.search`) の値だけを外側のストリームに流してくれます。さらに、新しい入力が来た場合、進行中の古いAPIリクエストをキャンセルしてくれるため、検索機能に最適です。
 
 > [!NOTE]
-> **なぜ `switchMap`？** の補足 → [[高階マッピングオペレータ入門]]
+> **なぜ `switchMap`？** の補足 → [高階マッピングオペレータ入門](高階マッピングオペレータ入門.md)
 
 
 
