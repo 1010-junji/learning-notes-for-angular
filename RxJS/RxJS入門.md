@@ -269,7 +269,7 @@ export class SearchComponent implements OnInit {
 *   **なぜ `switchMap`？**: `map` だと、`Observable<string>` が `Observable<Observable<any[]>>` になってしまいます（Observable の入れ子）。`switchMap` は**高階マッピング (Higher-Order Mapping)** オペレータの一つで、内側の Observable (`apiService.search`) の値だけを外側のストリームに流してくれます。さらに、新しい入力が来た場合、進行中の古いAPIリクエストをキャンセルしてくれるため、検索機能に最適です。
 
 > [!NOTE]
-> **なぜ `switchMap`？** の補足 → [高階マッピングオペレータ入門](高階マッピングオペレータ入門.md)
+> **なぜ `switchMap`？** の補足 → [[高階マッピングオペレータ入門]]
 
 
 
@@ -288,7 +288,7 @@ export class SearchComponent implements OnInit {
 ---
 
 > [!IMPORTANT]
-> **質問**
+> **質問**   
 > 上のコード例で、`http.get` に対して `.pipe` をつなげていますが、`hppt.get` の戻り値は Observable ということですか？ `HttpClient` は rxjs ではなく angular のコンポーネントだと思いますが、angular 自体に rxjs が組み込まれているということでしょうか？もしくは Observable というのは rxjs のオブジェクトではなく、一般的な言語レベルでのオブジェクトですか？さらにもしくは、angularにはObservableは含まれていないが、rxjs のほうで、自動的にキャストしているのでしょうか？
 
 素晴らしい質問ですね。これは多くの Angular 学習者が最初に抱く疑問であり、ここを理解することが Angular と RxJS の関係を正しく捉えるための鍵となります。
@@ -478,7 +478,7 @@ Angular と RxJS は、もはや切り離せない密接なパートナーです
 
 ---
 > [!IMPORTANT]
-> **質問**
+> **質問**    
 > Angularで利用される`valueChanges` や `statusChanges` という `Observable`について解説してください。
 
 承知いたしました。Angular のリアクティブフォーム (`ReactiveFormsModule`) で中心的な役割を果たす `valueChanges` と `statusChanges` について、RxJS のアーキテクトの視点から解説します。
