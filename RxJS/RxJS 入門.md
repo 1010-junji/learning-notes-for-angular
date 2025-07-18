@@ -399,10 +399,10 @@ Angular プロジェクトを `ng new my-app` コマンドで作成すると、�
 ```mermaid
 graph LR
     subgraph Angular Platform
-        Core(@angular/core)
-        HttpClient(@angular/common/http)
-        Forms(@angular/forms)
-        Router(@angular/router)
+        Core(＠angular/core)
+        HttpClient(＠angular/common/http)
+        Forms(＠angular/forms)
+        Router(＠angular/router)
 
         subgraph RxJS Library
             Observable
