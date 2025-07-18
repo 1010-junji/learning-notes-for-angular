@@ -272,6 +272,7 @@ export class SearchComponent implements OnInit {
 > **なぜ `switchMap`？** の補足 → [[高階マッピングオペレータ入門]]
 
 
+
 ---
 
 ### まとめ：RxJS を学ぶマインドセット
