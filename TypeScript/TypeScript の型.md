@@ -72,14 +72,14 @@ TypeScriptは、JavaScriptに「静的な型」という概念を導入した、
 
 ここからがTypeScriptの真骨頂です。コードの柔軟性と安全性を両立させるための強力な機能群です。
 
-| 型                       | 説明                       | サンプルコード                                                                                                                                |                                                         
+| 型                       | 説明                       | サンプルコード                                                                                                                                |
 | :---------------------- | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
-| `any`                   | **最終手段**。型チェックを無効化する。    | `let anything: any = 4;` <br> `anything = "hello"; // OK` <br> `anything.doSomething(); // OK (実行時にエラーになる可能性)`                                     |
-| `unknown`               | `any` の安全版。利用前に型チェックが必須。 | `let value: unknown = "hello";` <br> `if (typeof value === 'string') { console.log(value.toUpperCase()); }`                                               |
-| **Union (`             ｜ `)**                     | OR。複数の型のいずれか。          | `let id: string                                             ｜ number = "123-abc";` <br> `id = 456;` |
-| **Intersection (`&`)**  | AND。複数の型をすべて併せ持つ。        | `type Draggable = { drag: () => void; };` <br> `type Resizable = { resize: () => void; };` <br> `type Widget = Draggable & Resizable;` |                                  |
-| **Type Alias (`type`)** | 型に別名を付ける。                | `type UserID = string     ｜ number;` <br> `type User = { name: string; age: number; };` |                                       |
-| **Interface**           | オブジェクトの「形状」を定義する契約。      | `interface Person { name: string; age: number; }`                                                                                      |                                              |
+| `any`                   | **最終手段**。型チェックを無効化する。    | `let anything: any = 4;` <br> `anything = "hello"; // OK` <br> `anything.doSomething(); // OK (実行時にエラーになる可能性)`                         |
+| `unknown`               | `any` の安全版。利用前に型チェックが必須。 | `let value: unknown = "hello";` <br> `if (typeof value === 'string') { console.log(value.toUpperCase()); }`                            |
+| **Union (`｜`)**         | OR。複数の型のいずれか。            | `let id: string｜number = "123-abc";` <br> `id = 456;`                                                                                  |
+| **Intersection (`&`)**  | AND。複数の型をすべて併せ持つ。        | `type Draggable = { drag: () => void; };` <br> `type Resizable = { resize: () => void; };` <br> `type Widget = Draggable & Resizable;` |
+| **Type Alias (`type`)** | 型に別名を付ける。                | `type UserID = string｜ number;` <br> `type User = { name: string; age: number; };`                                                     |
+| **Interface**           | オブジェクトの「形状」を定義する契約。      | `interface Person { name: string; age: number; }`                                                                                      |
 
 **【背景と知識】**
 
@@ -102,13 +102,14 @@ TypeScriptは、JavaScriptに「静的な型」という概念を導入した、
 
 より柔軟で再利用性の高い型を作るための、応用的なテクニックです。
 
-| 機能 | 説明 | サンプルコード |
-| :--- | :--- | :--- |
-| **ジェネリクス (`<T>`)** | 型を引数として受け取る。再利用性の高いコンポーネントを作る。 | `function identity<T>(arg: T): T { return arg; }` <br> `let output = identity<string>("myString");` |
-| **型アサーション (`as`)**| 開発者が型を断定する。推論を上書き。 | `const myCanvas = document.getElementById("main_canvas") as HTMLCanvasElement;` |
-| **リテラル型** | 特定の文字列や数値そのものを型にする。 | `let status: "success" ｜ "error" ｜ "loading";` <br> `status = "success"; // OK` <br> `status = "pending"; // Error!` |
-| **型ガード** | `if` 文などで型を絞り込むテクニック。 | `function printId(id: string ｜ number) {` <br> `  if (typeof id === "string") {` <br> `    console.log(id.toUpperCase()); // ここでは id は string 型` <br> `  }` <br> `}` |
-| **ユーティリティ型** | 型操作に便利な組み込みの型。 | `interface Todo { title: string; desc: string; }` <br> `type PartialTodo = Partial<Todo>; // すべてのプロパティがオプショナルになる` <br> `type ReadonlyTodo = Readonly<Todo>; // すべてのプロパティが読み取り専用になる` <br> `type PickedTodo = Pick<Todo, 'title'>; // 'title'プロパティだけを抜き出す`|
+| 機能                                  | 説明                             | サンプルコード                                                                                                                                                                                                                                                  |
+| :---------------------------------- | :----------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **ジェネリクス(`<T>`)**                   | 型を引数として受け取る。再利用性の高いコンポーネントを作る。 | `function identity<T>(arg: T): T { return arg; }` <br> `let output = identity<string>("myString");`                                                                                                                                                      |
+| **型アサーション (`as`)**                  | 開発者が型を断定する。推論を上書き。             | `const myCanvas = document.getElementById("main_canvas") as HTMLCanvasElement;`                                                                                                                                                                          |
+| **リテラル型**                           | 特定の文字列や数値そのものを型にする。            | `let status: "success" ｜ "error" ｜ "loading";` <br> `status = "success"; // OK` <br> `status = "pending"; // Error!`                                                                                                                                     |
+| **型ガード**                            | `if` 文などで型を絞り込むテクニック。          | `function printId(id: string ｜ number) {` <br> `  if (typeof id === "string") {` <br> `    console.log(id.toUpperCase()); // ここでは id は string 型` <br> `  }` <br> `}`                                                                                     |
+| **ユーティリティ型**                        | 型操作に便利な組み込みの型。                 | `interface Todo { title: string; desc: string; }` <br> `type PartialTodo = Partial<Todo>; // すべてのプロパティがオプショナルになる` <br> `type ReadonlyTodo = Readonly<Todo>; // すべてのプロパティが読み取り専用になる` <br> `type PickedTodo = Pick<Todo, 'title'>; // 'title'プロパティだけを抜き出す` |
+| ................................... |                                |                                                                                                                                                                                                                                                          |
 
 **【背景と知識】**
 

@@ -1,12 +1,12 @@
-こんにちは！`[typings.d.ts]` ファイルの記述についてですね。何をしているかは分かるとのことですので、なぜこのような書き方をするのか、その文法的な背景や役割を中心に解説しますね。
+こんにちは！`typings.d.ts` ファイルの記述についてですね。何をしているかは分かるとのことですので、なぜこのような書き方をするのか、その文法的な背景や役割を中心に解説しますね。
 
 ### このファイルは何をしているのか？
 
-一言で言うと、このファイルは**「JavaScriptの世界で動的に追加されるオブジェクトの『型』を、TypeScriptのコンパイラに教える」**ためのものです。
+一言で言うと、このファイルは **「JavaScriptの世界で動的に追加されるオブジェクトの『型』を、TypeScriptのコンパイラに教える」** ためのものです。
 
-Electron + Angularのような構成では、`[preload.ts](code-assist-path:/workspaces/server/src/preload.ts "/workspaces/server/src/preload.ts")`スクリプトによって、ブラウザ環境（レンダラープロセス）のグローバルな`window`オブジェクトに`electronAPI`というプロパティが追加されます。しかし、TypeScriptはコンパイル時にそのことを知らないため、そのままでは「`window`に`electronAPI`なんてプロパティは存在しません」とエラーを出してしまいます。
+Electron + Angularのような構成では、`preload.ts`スクリプトによって、ブラウザ環境（レンダラープロセス）のグローバルな`window`オブジェクトに`electronAPI`というプロパティが追加されます。しかし、TypeScriptはコンパイル時にそのことを知らないため、そのままでは「`window`に`electronAPI`なんてプロパティは存在しません」とエラーを出してしまいます。
 
-この`[typings.d.ts](code-assist-path:/workspaces/client/src/typings.d.ts "/workspaces/client/src/typings.d.ts")`ファイルは、そのエラーを防ぎ、`window.electronAPI`を安全に、そしてコード補完を効かせながら利用できるようにするための「型定義ファイル」なのです。
+この`typings.d.ts`ファイルは、そのエラーを防ぎ、`window.electronAPI`を安全に、そしてコード補完を効かせながら利用できるようにするための「型定義ファイル」なのです。
 
 ### 構文の解説
 
@@ -19,7 +19,7 @@ Electron + Angularのような構成では、`[preload.ts](code-assist-path:/wor
 export interface IElectronAPI {
     loadTodos: () => Promise<any[]>;
     saveTodos: (todos: any[]) => void;
-  }
+}
   
 // ② グローバルスコープの拡張
 declare global {
@@ -27,16 +27,19 @@ declare global {
     interface Window {
       electronAPI: IElectronAPI;
     }
-  }
+}
 ```
 
 1. **`export interface IElectronAPI { ... }`** これは、`electronAPI`オブジェクトがどのようなメンバー（プロパティやメソッド）を持つかを定義する**インターフェース**です。
     
     - `loadTodos`: 引数なしで、`Promise<any[]>`（`any`型の配列を結果として返すPromise）を返す関数。
-    - `saveTodos`: `any`型の配列を引数に取り、何も返さない（`void`）関数。 このように、`[preload.ts](code-assist-path:/workspaces/server/src/preload.ts "/workspaces/server/src/preload.ts")`で公開したAPIの仕様を型として表現しています。
-2. **`declare global { ... }`** TypeScriptのファイルは、通常はそれぞれが独立した「モジュール」として扱われます。そのため、ファイル内で定義した型は、基本的にそのファイル内でしか有効ではありません。 `declare global`ブロックを使うと、**「ここから内側は、プロジェクト全体のグローバルなスコープに対する宣言ですよ」**とTypeScriptコンパイラに伝えることができます。`window`オブジェクトのような、どこからでもアクセスできるグローバルなオブジェクトの型を拡張したい場合に使用します。
+    - `saveTodos`: `any`型の配列を引数に取り、何も返さない（`void`）関数。 
     
-3. **`interface Window { ... }`** これは、ブラウザが元々持っている`Window`インターフェース（`window`オブジェクトの型）に対する**拡張**です。TypeScriptには**「宣言のマージ (Declaration Merging)」**という機能があり、同じ名前のインターフェースを複数回定義すると、それらの定義が自動的に1つに結合されます。 ここでは、既存の`Window`インターフェースに、私たちが新たに追加したい`electronAPI`プロパティ（型は先ほど定義した`IElectronAPI`）をマージしています。
+    このように、`preload.ts`で公開したAPIの仕様を型として表現しています。
+    
+2. **`declare global { ... }`** TypeScriptのファイルは、通常はそれぞれが独立した「モジュール」として扱われます。そのため、ファイル内で定義した型は、基本的にそのファイル内でしか有効ではありません。 `declare global`ブロックを使うと、**「ここから内側は、プロジェクト全体のグローバルなスコープに対する宣言ですよ」** とTypeScriptコンパイラに伝えることができます。`window`オブジェクトのような、どこからでもアクセスできるグローバルなオブジェクトの型を拡張したい場合に使用します。
+    
+3. **`interface Window { ... }`** これは、ブラウザが元々持っている`Window`インターフェース（`window`オブジェクトの型）に対する**拡張**です。TypeScriptには **「宣言のマージ (Declaration Merging)」** という機能があり、同じ名前のインターフェースを複数回定義すると、それらの定義が自動的に1つに結合されます。 ここでは、既存の`Window`インターフェースに、私たちが新たに追加したい`electronAPI`プロパティ（型は先ほど定義した`IElectronAPI`）をマージしています。
     
 
 これにより、TypeScriptコンパイラは「なるほど、このプロジェクトでは`window`オブジェクトに`electronAPI`というプロパティが存在するんだな」と認識できるようになります。
