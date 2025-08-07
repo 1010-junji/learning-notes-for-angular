@@ -1,4 +1,4 @@
-> [!Question]
+> [!NOTE]
 > > PromiseチェーンやRxJSのObservableを使う方法もありますが、複数ステップの順次処理にはasync/awaitが適している
 >
 >この部分の根拠や特性、理由を具体的に知りたい。
